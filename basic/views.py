@@ -1,3 +1,5 @@
+import datetime
+
 from django.http import HttpResponse
 
 
@@ -6,3 +8,9 @@ from django.http import HttpResponse
 # view as function
 def hello(request):
     return HttpResponse("Hello world")
+
+
+def current_datetime(request):
+    now = datetime.datetime.now()
+    message = "It is now %s." % now
+    return HttpResponse(message)
