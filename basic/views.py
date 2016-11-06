@@ -2,7 +2,6 @@ import datetime
 
 from django.http import HttpResponse
 
-from .util.parameter_converters import convert_str_to_int
 from .util.time_calculation import add_hours
 
 
@@ -20,7 +19,7 @@ def current_datetime(request):
 
 
 def hours_ahead(request, offset):
-    offset = convert_str_to_int(offset)
+    offset = int(offset)
     date_time = add_hours(datetime.datetime.now(), offset)
     message = "In %s hour(s), it will be  %s." % (offset, date_time)
     return HttpResponse(message)
