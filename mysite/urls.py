@@ -16,10 +16,11 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 
-from basic.views import current_datetime, hello
+from basic.views import current_datetime, hello, hours_ahead
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^hello/', hello),
-    url(r'^time/', current_datetime),
+    url(r'^time/$', current_datetime),
+    url(r'^time/plus/(?P<offset>\d{1,2})/$', hours_ahead),
 ]
