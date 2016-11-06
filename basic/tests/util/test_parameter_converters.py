@@ -15,6 +15,6 @@ class ConvertStringToIntTest(unittest.TestCase):
     def test_that_error_is_reported_when_value_is_not_a_int_number(self):
         try:
             convert_str_to_int("a")
-            fail("It should report an error when value is not a int number.")
+            fail("It should report an error.")
         except Http404 as e:
-            assert_that(e[0]).is_equal_to("Value 'a' is not an int number!")
+            assert_that(e).is_not_none()
