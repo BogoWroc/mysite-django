@@ -2,7 +2,7 @@ from assertpy import assert_that
 from django.core.urlresolvers import resolve, reverse
 from django.test import TestCase
 
-from basic.views import current_datetime, hello, hours_ahead
+from basic.views import current_datetime, hello, hours_ahead, order_report
 
 
 class ViewAsAFunctionTest(TestCase):
@@ -10,6 +10,7 @@ class ViewAsAFunctionTest(TestCase):
         self._verify_that_function_view_is_assigned_to_url(hello, '/hello/')
         self._verify_that_function_view_is_assigned_to_url(current_datetime, '/time/')
         self._verify_that_function_view_is_assigned_to_url(hours_ahead, '/time/plus/3/')
+        self._verify_that_function_view_is_assigned_to_url(order_report, '/order-report/')
 
     def test_that_view_function_returns_correct_response(self):
         response = self._get_response_from(hello)
@@ -20,6 +21,9 @@ class ViewAsAFunctionTest(TestCase):
 
         response = self._get_response_from(hours_ahead, kwargs={'offset': 3})
         assert_that(self._get_content(response)).contains("In 3 hour(s)")
+
+        response = self._get_response_from(order_report)
+        assert_that(self._get_content(response)).contains("Bogumil", "Car", "Bike", "Pythonic")
 
     def _get_response_from(self, function_view, **kwargs):
         url = self._reverse_function_view_to_url(function_view, **kwargs)
