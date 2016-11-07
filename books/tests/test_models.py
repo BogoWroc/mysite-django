@@ -16,12 +16,11 @@ class CrudOperationsTest(TestCase):
         actual = Author.objects.get(first_name="bogumil")
 
         # then
-        assert_that(author).is_equal_to(actual)
+        assert_that(actual).is_equal_to(author)
 
-    def test_select_all_operation(self):
+    def test_that_all_authors_will_be_found(self):
         # given
         authors = AuthorFactory.create_batch(20)
-        print(authors)
 
         # when
         actual = Author.objects.all()
