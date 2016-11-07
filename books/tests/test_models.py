@@ -17,3 +17,14 @@ class CrudOperationsTest(TestCase):
 
         # then
         assert_that(author).is_equal_to(actual)
+
+    def test_select_all_operation(self):
+        # given
+        authors = AuthorFactory.create_batch(20)
+        print(authors)
+
+        # when
+        actual = Author.objects.all()
+
+        # then
+        assert_that(len(actual)).is_equal_to(20)

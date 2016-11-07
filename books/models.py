@@ -18,7 +18,7 @@ class Author(models.Model):
     email = models.EmailField()
 
     def __str__(self):
-        return "[Author] -> (first_name = {}, last_name = {}, email = {})".format(
+        return "first_name = {}, last_name = {}, email = {}".format(
             self.first_name,
             self.last_name,
             self.email
