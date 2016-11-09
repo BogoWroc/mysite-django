@@ -18,7 +18,8 @@ class Publisher(models.Model):
 class Author(models.Model):
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=40)
-    email = models.EmailField(blank=True)  # Optional field
+    # Mark field as optional and change field label at admin page to e-mail
+    email = models.EmailField(blank=True, verbose_name='e-mail')
 
     def __str__(self):
         return "{} {}".format(self.first_name, self.last_name)
