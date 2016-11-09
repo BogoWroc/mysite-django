@@ -12,6 +12,7 @@ class AuthorAdmin(admin.ModelAdmin):
 class BookAdmin(admin.ModelAdmin):
     list_display = ('title', 'publisher', 'publication_date')
     list_filter = ('publication_date',)
+    fields = ('title', 'authors', 'publisher')
 
 
 # Register your models here.
