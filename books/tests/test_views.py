@@ -2,6 +2,7 @@ from assertpy import assert_that
 from django.test import TestCase
 from django.urls import reverse
 
+from books.factories import BookFactory
 from books.views import browser_information, search_form, search
 from common.view_testing_tools import get_response_from, verify_that_function_view_is_assigned_to_url, get_content
 
@@ -30,14 +31,31 @@ class ViewAsAFunctionTest(TestCase):
             }
         )
 
-        assert_that(get_content(response)).is_equal_to("You submitted an empty form.")
+        assert_that(get_content(response)).is_equal_to("Please submit a search term.")
 
-    def test_that_proper_message_will_be_returned_when_form_was_filled(self):
+
+class SearchViewTest(TestCase):
+    def setUp(self):
+        self.book1 = BookFactory(title="Title1")
+        self.book2 = BookFactory(title="Title2")
+        self.book3 = BookFactory(title="Other")
+
+    def test_that_list_of_books_with_title_started_from_selected_prefix_will_be_displayed(self):
         response = self.client.get(
             reverse('search'),
             data={
-                'fsearch': "TEST"
+                'fsearch': "Title"
             }
         )
 
-        assert_that(get_content(response)).is_equal_to("You searched for: 'TEST'")
+        assert_that(get_content(response)).contains("Title1", "Title2")
+
+    def test_that_any_book_match_to_dedicated_search(self):
+        response = self.client.get(
+            reverse('search'),
+            data={
+                'fsearch': "New"
+            }
+        )
+
+        assert_that(get_content(response)).contains("No books matched your search criteria.")
