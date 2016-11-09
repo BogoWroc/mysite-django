@@ -21,4 +21,4 @@ def search(request):
         return render(request, 'search-results.html',
                       {'books': books, 'query': fsearch})
     else:
-        return HttpResponse('Please submit a search term.')
+        return render(request, 'search-form.html', {'error': True})

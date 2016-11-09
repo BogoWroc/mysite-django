@@ -6,6 +6,9 @@
 
 {% block content %}
     <div class="container">
+        {% if error %}
+            <p style="color: red;">Please submit a search term.</p>
+        {% endif %}
         <form action="/books/search/" method="get">
             <input type="text" name="fsearch">
             <input type="submit" value="Search">

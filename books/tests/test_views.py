@@ -23,16 +23,6 @@ class ViewAsAFunctionTest(TestCase):
         response = get_response_from(self.client, search)
         assert_that(response.status_code).is_equal_to(200)
 
-    def test_that_proper_message_will_be_returned_when_empty_form_was_sent(self):
-        response = self.client.get(
-            reverse('search'),
-            data={
-                'fsearch': ""
-            }
-        )
-
-        assert_that(get_content(response)).is_equal_to("Please submit a search term.")
-
 
 class SearchViewTest(TestCase):
     def setUp(self):
