@@ -2,6 +2,9 @@ from assertpy import assert_that
 from django.urls import resolve, reverse
 
 
+def get_content(response):
+    return str(response.content, response.charset)
+
 def get_response_from(client, function_view, **kwargs):
     url = _reverse_function_view_to_url(function_view, **kwargs)
     response = client.get(url)
