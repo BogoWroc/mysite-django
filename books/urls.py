@@ -15,10 +15,9 @@ Including another URLconf
 """
 from django.conf.urls import url
 
-from books.views import browser_information, search_form, search
+from books.views import browser_information, search
 
 urlpatterns = [
     url(r'browser/$', browser_information),
-    url(r'search-form/$', search_form),
     url(r'search/$', search, name="search"),
 ]

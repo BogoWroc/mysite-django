@@ -10,15 +10,15 @@ def browser_information(request):
     return HttpResponse("Your browser is %s" % ua)
 
 
-def search_form(request):
-    return render(request, 'search-form.html')
-
-
 def search(request):
-    if 'fsearch' in request.GET and request.GET['fsearch']:
+    error = False
+    if 'fsearch' in request.GET:
         fsearch = request.GET['fsearch']
-        books = Book.objects.filter(title__icontains=fsearch)
-        return render(request, 'search-results.html',
-                      {'books': books, 'query': fsearch})
-    else:
-        return render(request, 'search-form.html', {'error': True})
+        if not fsearch:
+            error = True
+        else:
+            books = Book.objects.filter(title__icontains=fsearch)
+            return render(request, 'search-results.html',
+                          {'books': books, 'query': fsearch})
+
+    return render(request, 'search-form.html', {'error': error})
