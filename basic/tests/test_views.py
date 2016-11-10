@@ -1,7 +1,7 @@
 from assertpy import assert_that
 from django.test import TestCase
 
-from basic.views import current_datetime, hello, hours_ahead, order_report
+from basic.views import current_datetime, hello, hours_ahead, order_report, contact
 from common.view_testing_tools import get_response_from, verify_that_function_view_is_assigned_to_url
 
 
@@ -11,6 +11,7 @@ class ViewAsAFunctionTest(TestCase):
         verify_that_function_view_is_assigned_to_url(current_datetime, '/time/')
         verify_that_function_view_is_assigned_to_url(hours_ahead, '/time/plus/3/')
         verify_that_function_view_is_assigned_to_url(order_report, '/order-report/')
+        verify_that_function_view_is_assigned_to_url(contact, '/contact/')
 
     def test_that_view_function_returns_correct_response(self):
         response = get_response_from(self.client, hello)
@@ -24,6 +25,9 @@ class ViewAsAFunctionTest(TestCase):
 
         response = get_response_from(self.client, order_report)
         assert_that(self._get_content(response)).contains("Bogumil", "Car", "Bike", "Pythonic")
+
+        response = get_response_from(self.client, contact)
+        assert_that(response.status_code).is_equal_to(200)
 
     def _get_content(self, response):
         return str(response.content, response.charset)

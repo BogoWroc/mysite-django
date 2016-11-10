@@ -1,9 +1,12 @@
 import datetime
 
+from django.core.mail import send_mail
 from django.http import HttpResponse
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.utils.timezone import now
 
+from basic.forms import ContactForm
 from .util.time_calculation import add_hours
 
 
@@ -39,3 +42,22 @@ def order_report(request):
 
     # Render template as page
     return render(request, "order-report.html", context)
+
+
+def contact(request):
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            cd = form.cleaned_data
+            send_mail(
+                cd['subject'],
+                cd['message'],
+                cd.get('email', 'noreply@example.com'),
+                ['siteowner@example.com'],
+            )
+            return HttpResponseRedirect('/contact/thanks/')
+    else:
+        form = ContactForm()
+    return render(request,
+                  'contact-form.html', {'form': form}
+                  )
