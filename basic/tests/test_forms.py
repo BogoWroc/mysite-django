@@ -32,9 +32,20 @@ class ContactFormTest(TestCase):
     def test_that_form_with_subject_longer_than_100_characters_is_invalid(self):
         # given
         contact_form = ContactForm(data={
-            'subject': self.lorem_provider('faker.providers.lorem').text(max_nb_chars=200),
+            'subject': self.lorem_provider.text(max_nb_chars=200),
             'message': self.lorem_provider.word(),
         })
 
         # when/then
         assert_that(contact_form.is_valid()).is_false()
+
+    def test_that_form_with_message_contains_less_than_four_words_is_invalid(self):
+        # given
+        contact_form = ContactForm(data={
+            'subject': self.lorem_provider.text(max_nb_chars=200),
+            'message': " ".join(self.lorem_provider.words(nb=3)),
+        })
+
+        # when/then
+        assert_that(contact_form.is_valid()).is_false()
+        assert_that(contact_form.errors['message']).contains("Not enough words!")
