@@ -16,7 +16,7 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 
-from basic.views import current_datetime, hello, hours_ahead, order_report
+from basic.views import current_datetime, hello, hours_ahead, order_report, contact
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -24,5 +24,6 @@ urlpatterns = [
     url(r'^time/$', current_datetime),
     url(r'^time/plus/(?P<offset>\d{1,2})/$', hours_ahead),
     url(r'^order-report/$', order_report),
-    url(r'^books/', include('books.urls'))
+    url(r'^books/', include('books.urls')),
+    url(r'^contact/$', contact),
 ]
