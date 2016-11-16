@@ -46,3 +46,27 @@ class Book(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class MaleManager(models.Manager):
+    def get_queryset(self):
+        return super(MaleManager, self).get_queryset().filter(sex='M')
+
+
+class FemaleManager(models.Manager):
+    def get_queryset(self):
+        return super(FemaleManager, self).get_queryset().filter(sex='F')
+
+
+class Person(models.Model):
+    first_name = models.CharField(max_length=50)
+    last_name = models.CharField(max_length=50)
+    sex = models.CharField(max_length=1,
+                           choices=(
+                               ('M', 'Male'),
+                               ('F', 'Female')
+                           )
+                           )
+    people = models.Manager()
+    men = MaleManager()
+    women = FemaleManager()

@@ -1,7 +1,8 @@
 import factory
 from django.utils.timezone import now
+from faker.providers import BaseProvider
 
-from books.models import Author, Book, Publisher
+from books.models import Author, Book, Publisher, Person
 
 
 class PublisherFactory(factory.django.DjangoModelFactory):
@@ -40,3 +41,25 @@ class BookFactory(factory.django.DjangoModelFactory):
         if extracted:
             for authors in extracted:
                 self.authors.add(authors)
+
+
+class SexProvider(BaseProvider):
+    __provider__ = "sex"
+    __lang__ = "en_US"
+
+    _sex = [
+        u'Male', u'Female',
+    ]
+
+    @classmethod
+    def sex(cls):
+        return cls.random_element(cls._sex)
+
+
+class PersonFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = Person
+
+    first_name = factory.Faker('first_name')
+    last_name = factory.Faker('last_name')
+    sex = SexProvider.sex()

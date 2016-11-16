@@ -1,8 +1,8 @@
 from assertpy import assert_that
 from django.test import TestCase
 
-from books.factories import AuthorFactory, BookFactory
-from books.models import Author, Book
+from books.factories import AuthorFactory, BookFactory, PersonFactory
+from books.models import Author, Book, Person
 
 
 # Everything can be found at https://docs.djangoproject.com/el/1.10/ref/models/querysets/
@@ -16,10 +16,14 @@ class CrudOperationsTest(TestCase):
         self.book1 = BookFactory(authors=[self.author1])
         self.book2 = BookFactory(title="World 1", authors=[self.author1])
         self.book3 = BookFactory(title="Next world 2", authors=[self.author1])
+        self.person1 = PersonFactory(sex='M')
+        self.person2 = PersonFactory(sex='M')
+        self.person3 = PersonFactory(sex='F')
 
     def tearDown(self):
         Author.objects.all().delete()
         Book.objects.all().delete()
+        Person.people.all().delete()
 
     def test_find_selected_author_stored_in_db(self):
         # when
@@ -81,3 +85,9 @@ class CrudOperationsTest(TestCase):
         count = Book.objects.title_count("world")
         # then
         assert_that(count).is_equal_to(2)
+
+    def test_that_only_females_are_returned(self):
+        assert_that(len(Person.women.all())).is_equal_to(1)
+
+    def test_that_only_males_are_returned(self):
+        assert_that(len(Person.men.all())).is_equal_to(2)
