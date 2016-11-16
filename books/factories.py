@@ -56,10 +56,12 @@ class SexProvider(BaseProvider):
         return cls.random_element(cls._sex)
 
 
+factory.Faker.add_provider(SexProvider)
+
 class PersonFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Person
 
     first_name = factory.Faker('first_name')
     last_name = factory.Faker('last_name')
-    sex = SexProvider.sex()
+    sex = factory.Faker('sex')

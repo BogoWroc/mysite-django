@@ -1,8 +1,8 @@
 from assertpy import assert_that
 from django.test import TestCase
 
-from books.factories import PublisherFactory, AuthorFactory, BookFactory
-from books.models import Publisher, Book
+from books.factories import PublisherFactory, AuthorFactory, BookFactory, PersonFactory
+from books.models import Publisher, Book, Person
 
 
 class InstanceCreationTest(TestCase):
@@ -26,3 +26,13 @@ class InstanceCreationTest(TestCase):
 
         # then
         assert_that(actual).is_equal_to(book)
+
+    def test_that_person_can_be_created(self):
+        # given
+        person = PersonFactory()
+
+        # when
+        actual = Person.people.all()
+
+        # then
+        assert_that(actual).contains(person)
