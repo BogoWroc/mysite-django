@@ -1,7 +1,7 @@
 from assertpy import assert_that
 from django.test import TestCase
 
-from books.factories import AuthorFactory
+from books.factories import AuthorFactory, BookFactory
 from books.models import Author
 
 
@@ -13,6 +13,7 @@ class CrudOperationsTest(TestCase):
         self.author2 = AuthorFactory(first_name="Author2", email="author2@wp.pl")
         self.author3 = AuthorFactory(first_name="Author3", email="author3@poczta.onet.pl")
         self.author4 = AuthorFactory(first_name="Author4", email="author4@gmail.com")
+        self.book = BookFactory(authors=[self.author1])
 
     def tearDown(self):
         Author.objects.all().delete()
@@ -63,3 +64,11 @@ class CrudOperationsTest(TestCase):
 
         # then
         assert_that(len(found_authors)).is_equal_to(0)
+
+    def test_that_first_author_has_a_book(self):
+        # when
+        author = Author.objects.get(id=1)
+        book = author.book_set.get(id=1)
+
+        # then
+        assert_that(book).is_equal_to(self.book)
