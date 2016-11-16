@@ -91,3 +91,16 @@ class CrudOperationsTest(TestCase):
 
     def test_that_only_males_are_returned(self):
         assert_that(len(Person.men.all())).is_equal_to(2)
+
+
+class RawSQLOperationsTest(TestCase):
+    def test_that_raw_sql_can_be_executed(self):
+        # given
+        p1 = PersonFactory()
+        p2 = PersonFactory()
+
+        # when
+        person_query_set = Person.people.raw("SELECT * FROM books_person")
+
+        # then
+        assert_that(person_query_set).contains(p1, p2)
