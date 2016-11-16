@@ -2,7 +2,7 @@ from assertpy import assert_that
 from django.test import TestCase
 
 from books.factories import AuthorFactory, BookFactory
-from books.models import Author
+from books.models import Author, Book
 
 
 # Everything can be found at https://docs.djangoproject.com/el/1.10/ref/models/querysets/
@@ -13,10 +13,13 @@ class CrudOperationsTest(TestCase):
         self.author2 = AuthorFactory(first_name="Author2", email="author2@wp.pl")
         self.author3 = AuthorFactory(first_name="Author3", email="author3@poczta.onet.pl")
         self.author4 = AuthorFactory(first_name="Author4", email="author4@gmail.com")
-        self.book = BookFactory(authors=[self.author1])
+        self.book1 = BookFactory(authors=[self.author1])
+        self.book2 = BookFactory(title="World 1", authors=[self.author1])
+        self.book3 = BookFactory(title="Next world 2", authors=[self.author1])
 
     def tearDown(self):
         Author.objects.all().delete()
+        Book.objects.all().delete()
 
     def test_find_selected_author_stored_in_db(self):
         # when
@@ -71,4 +74,10 @@ class CrudOperationsTest(TestCase):
         book = author.book_set.get(id=1)
 
         # then
-        assert_that(book).is_equal_to(self.book)
+        assert_that(book).is_equal_to(self.book1)
+
+    def test_that_library_contains_slected_numbers_of_books_with_title_contains_the_same_word(self):
+        # when
+        count = Book.objects.title_count("world")
+        # then
+        assert_that(count).is_equal_to(2)
