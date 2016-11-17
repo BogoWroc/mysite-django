@@ -1,8 +1,9 @@
 # Create your views here.
 from django.http import HttpResponse
 from django.shortcuts import render
+from django.views.generic import ListView
 
-from books.models import Book
+from books.models import Book, Publisher
 
 
 def browser_information(request):
@@ -22,3 +23,7 @@ def search(request):
                           {'books': books, 'query': fsearch})
 
     return render(request, 'search-form.html', {'error': error})
+
+
+class PublisherList(ListView):
+    model = Publisher
