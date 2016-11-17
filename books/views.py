@@ -27,3 +27,4 @@ def search(request):
 
 class PublisherList(ListView):
     model = Publisher
+    context_object_name = 'publisher_list'
