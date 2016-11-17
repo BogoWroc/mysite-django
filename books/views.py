@@ -28,3 +28,4 @@ def search(request):
 class PublisherList(ListView):
     model = Publisher
     context_object_name = 'publisher_list'
+    template_name = "books/publisher-list.html"
