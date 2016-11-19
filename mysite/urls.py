@@ -26,4 +26,5 @@ urlpatterns = [
     url(r'^order-report/$', order_report),
     url(r'^books/', include('books.urls')),
     url(r'^contact/$', contact),
+    url(r'^blog/', include('blog.urls', namespace='blog', app_name='blog')),
 ]
